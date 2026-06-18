@@ -1,4 +1,4 @@
-# 🚀 ProjectFlow – Project Management System
+# ProjectFlow – Project Management System
 
 A modern, full-stack project management application built for teams and individuals who want a clean, fast way to organize projects and tasks.
 
@@ -9,7 +9,7 @@ A modern, full-stack project management application built for teams and individu
 
 ---
 
-## ✨ Features
+##  Features
 
 - **Authentication** — Register, login, logout with JWT tokens
 - **Project Management** — Create, view, edit, delete projects with status tracking
@@ -22,7 +22,7 @@ A modern, full-stack project management application built for teams and individu
 
 ---
 
-## 🛠 Tech Stack
+##  Tech Stack
 
 | Layer      | Technology                                      |
 |------------|------------------------------------------------|
@@ -36,7 +36,7 @@ A modern, full-stack project management application built for teams and individu
 
 ---
 
-## 📁 Project Structure
+## Project Structure
 
 ```
 ProjectFlow/
@@ -65,7 +65,7 @@ ProjectFlow/
 
 ---
 
-## 🚀 Getting Started
+##  Getting Started
 
 ### Prerequisites
 
@@ -135,7 +135,7 @@ The frontend runs on `http://localhost:5173`.
 
 ---
 
-## 🔑 Environment Variables
+##  Environment Variables
 
 ### Backend (`server/.env`)
 
@@ -204,31 +204,6 @@ Users ──┐
 
 - **User → many Projects** (cascade delete)
 - **Project → many Tasks** (cascade delete)
-
----
-
-## 🚢 Deployment
-
-### Frontend → Vercel
-
-1. Push `client/` to GitHub
-2. Import in [Vercel](https://vercel.com)
-3. Set build command: `npm run build`
-4. Set output directory: `dist`
-5. Add env var: `VITE_API_URL=https://your-api.onrender.com/api`
-
-### Backend → Render
-
-1. Push `server/` to GitHub
-2. Create new Web Service on [Render](https://render.com)
-3. Set build command: `npm install`
-4. Set start command: `node server.js`
-5. Add all env vars from `.env.example`
-
-### Database → Railway
-
-1. Create MySQL service on [Railway](https://railway.app)
-2. Copy the connection details to your Render env vars
 
 ---
 
