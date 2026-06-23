@@ -8,8 +8,8 @@ const startServer = async () => {
   try {
     await sequelize.authenticate();
     console.log('Database connected successfully.');
-    // Sync models - use alter for development
-    await sequelize.sync({ alter: true });
+    // Sync models
+    await sequelize.sync();
     console.log('Models synchronized.');
 
     app.listen(PORT, () => {
