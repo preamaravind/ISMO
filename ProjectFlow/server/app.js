@@ -13,9 +13,12 @@ const dashboardRoutes = require('./routes/dashboardRoutes');
 
 const app = express();
 
+// Trust Vercel's proxy for rate limiting
+app.set('trust proxy', 1);
+
 // Middlewares
 app.use(helmet());
-app.use(cors({ origin: process.env.CLIENT_URL || 'http://localhost:3000' }));
+app.use(cors()); // Allow all origins so any frontend Vercel URL can connect
 app.use(express.json());
 app.use(morgan('dev'));
 app.use(generalLimiter);
