@@ -21,6 +21,9 @@ app.use(morgan('dev'));
 app.use(generalLimiter);
 
 // API Routes
+app.get('/api', (req, res) => {
+  res.json({ message: 'ProjectFlow API is running successfully!' });
+});
 app.use('/api/auth', authRoutes);
 app.use('/api/projects', projectRoutes);
 app.use('/api/tasks', taskRoutes);
