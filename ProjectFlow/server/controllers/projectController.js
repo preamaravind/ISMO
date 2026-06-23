@@ -46,7 +46,8 @@ const getProjects = async (req, res) => {
     console.error('GetProjects error:', error);
     res.status(500).json({
       success: false,
-      message: 'Failed to fetch projects.'
+      message: 'Failed to fetch projects: ' + (error.message || 'Unknown database error'),
+      fullError: error
     });
   }
 };
