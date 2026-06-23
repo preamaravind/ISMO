@@ -5,12 +5,6 @@ const { Project, Task } = require('../models');
 const getProjects = async (req, res) => {
   try {
     const userId = req.user.id;
-    
-    // VERCEL FIX: Auto-alter the database to add any missing columns 
-    // (like user_id) when the dashboard loads!
-    const { sequelize } = require('../models');
-    await sequelize.sync({ alter: true });
-
     const page = Math.max(parseInt(req.query.page) || 1, 1);
     const limit = Math.min(Math.max(parseInt(req.query.limit) || 10, 1), 100);
     const offset = (page - 1) * limit;
