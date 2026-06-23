@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken');
-const { User } = require('../models');
+const { User, sequelize } = require('../models');
 
 const generateToken = (userId) => {
   return jwt.sign({ id: userId }, process.env.JWT_SECRET, {
@@ -10,6 +10,10 @@ const generateToken = (userId) => {
 // POST /api/auth/register
 const register = async (req, res) => {
   try {
+    // VERCEL FIX: Ensure tables exist before trying to create a user!
+    // Since Vercel is serverless, the background sync might not finish in time.
+    await sequelize.sync();
+    
     const { full_name, email, password } = req.body;
 
     const existingUser = await User.findOne({ where: { email } });
