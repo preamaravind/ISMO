@@ -1,212 +1,122 @@
-# ProjectFlow – Project Management System
+# ProjectFlow – Modern Project Management
 
-A modern, full-stack project management application built for teams and individuals who want a clean, fast way to organize projects and tasks.
+A modern, full-stack project management application built for teams and individuals who want a clean, fast way to organize projects and tasks. Recently updated to support Serverless architecture on Vercel with PostgreSQL!
 
 ![Node.js](https://img.shields.io/badge/Node.js-18+-339933?logo=node.js&logoColor=white)
 ![React](https://img.shields.io/badge/React-18-61DAFB?logo=react&logoColor=black)
-![MySQL](https://img.shields.io/badge/MySQL-8.0-4479A1?logo=mysql&logoColor=white)
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-16-4169E1?logo=postgresql&logoColor=white)
 ![Tailwind](https://img.shields.io/badge/Tailwind_CSS-3-06B6D4?logo=tailwindcss&logoColor=white)
+![Vercel](https://img.shields.io/badge/Vercel-Deployed-000000?logo=vercel&logoColor=white)
 
 ---
 
-##  Features
+## 🌟 Features
 
-- **Authentication** — Register, login, logout with JWT tokens
-- **Project Management** — Create, view, edit, delete projects with status tracking
-- **Task Management** — Full CRUD with priority levels and status updates
-- **Dashboard** — Real-time stats, charts, recent activity at a glance
-- **Search & Filter** — Find projects/tasks by name, status, priority
-- **Pagination** — Server-side pagination for large datasets
-- **Responsive** — Works beautifully on desktop, tablet, and mobile
-- **Secure** — JWT auth, bcrypt hashing, rate limiting, input validation
+- **Authentication** — Register, login, logout with secure HTTP-only cookies and JWT tokens.
+- **Project Management** — Create, view, edit, and delete projects with progress tracking.
+- **Task Management** — Full CRUD (Create, Read, Update, Delete) capabilities. Set priorities, due dates, and statuses.
+- **Dashboard Analytics** — Real-time stats, dynamic Pie Charts, and recent activity timelines.
+- **Serverless Ready** — Pre-configured for zero-config Vercel deployment (Monorepo setup).
+- **Responsive Design** — Works beautifully on desktop, tablet, and mobile browsers.
 
 ---
 
-##  Tech Stack
+## 💻 Tech Stack
 
 | Layer      | Technology                                      |
 |------------|------------------------------------------------|
-| Frontend   | React 18, Vite, Tailwind CSS, React Router v6  |
-| Backend    | Node.js, Express.js, JWT, bcryptjs              |
-| Database   | MySQL 8.0, Sequelize ORM                        |
-| Charts     | Recharts                                        |
-| Forms      | React Hook Form                                 |
-| Docs       | Swagger / OpenAPI 3.0                           |
-| DevOps     | Docker, Docker Compose                          |
+| **Frontend**   | React 18, Vite, Tailwind CSS, React Router v6  |
+| **Backend**    | Node.js, Express.js, JWT Auth                  |
+| **Database**   | PostgreSQL (Neon DB), Sequelize ORM            |
+| **Charts**     | Recharts                                        |
+| **Deployment** | Vercel (Serverless Functions)                   |
 
 ---
 
-## Project Structure
+## 📂 Architecture & Structure
+
+This project uses a **Monorepo Structure** optimized for Vercel deployment. The frontend and backend live in the same repository, but Vercel treats the `api/` folder as Serverless Backend Functions.
 
 ```
 ProjectFlow/
+├── api/             # Vercel Serverless Entrypoint for the Backend
+│   └── index.js     # Imports Express app and handles database connections
 ├── client/          # React frontend (Vite)
-│   ├── src/
-│   │   ├── api/         # Axios API services
-│   │   ├── components/  # Reusable UI components
-│   │   ├── context/     # React Context (Auth, Toast)
-│   │   ├── hooks/       # Custom hooks
-│   │   ├── pages/       # Page components
-│   │   ├── routes/      # Router config
-│   │   └── utils/       # Constants & helpers
-│   └── ...
-├── server/          # Express backend
-│   ├── config/      # Database config
+│   ├── src/         # UI Components, Pages, Axios configuration
+│   └── package.json 
+├── server/          # Express backend logic
+│   ├── config/      # Database config (Sequelize)
 │   ├── controllers/ # Route handlers
-│   ├── middleware/   # Auth, validation, rate limiting
-│   ├── models/      # Sequelize models
-│   ├── routes/      # API routes
-│   ├── validators/  # Input validation rules
-│   ├── swagger/     # API documentation
-│   └── ...
-├── docker-compose.yml
-└── README.md
+│   ├── models/      # Database schemas (User, Project, Task)
+│   ├── routes/      # Express API routes
+│   └── app.js       # Core Express Application
+├── vercel.json      # Routing configuration for Vercel
+└── package.json     # Root dependencies for Backend
 ```
 
 ---
 
-##  Getting Started
+## 🚀 Deployment (Vercel)
 
-### Prerequisites
+The easiest way to deploy this application is on [Vercel](https://vercel.com). Because of the `vercel.json` file, Vercel will automatically build the React frontend and configure the Node.js backend simultaneously.
 
-- **Node.js** 18+
-- **MySQL** 8.0+ (or use Docker)
-- **npm** or **yarn**
+### 1. Database Setup (Neon PostgreSQL)
+1. Go to [Neon.tech](https://neon.tech/) and create a free PostgreSQL database.
+2. Copy your **Connection String** (it starts with `postgresql://...`).
 
-### Option 1: Run with Docker (Easiest)
+### 2. Vercel Setup
+1. Push your code to GitHub.
+2. In Vercel, click **Add New Project** and import your GitHub repository.
+3. Vercel will automatically detect the **Vite** frontend. Leave the build settings as default.
+4. Open the **Environment Variables** tab before clicking Deploy, and add the following:
 
+| Variable | Description | Example |
+|----------|-------------|---------|
+| `POSTGRES_URL` | Your Neon connection string | `postgresql://user:pass@host/db?sslmode=require` |
+| `JWT_SECRET` | A random, long string | `super_secret_encryption_key_123` |
+| `JWT_EXPIRES_IN` | Token expiration time | `7d` |
+| `NODE_ENV` | Must be set to production | `production` |
+
+5. Click **Deploy**. Vercel will build the frontend and set up the serverless backend.
+
+### 3. Database Initialization
+Once deployed, if you encounter database errors (like missing columns or tables), you can instantly reset and build the schema by visiting the hidden reset route in your browser:
+`https://your-vercel-domain.vercel.app/api/reset-db`
+
+---
+
+## 🛠 Local Development
+
+If you want to run the app locally on your machine instead of deploying it:
+
+### 1. Setup Database
+Create a local PostgreSQL database, or use a free remote Neon database connection string.
+
+### 2. Start the Backend
 ```bash
-# Clone the repo
-git clone <your-repo-url>
-cd ProjectFlow
-
-# Start everything
-docker-compose up --build
-
-# Frontend: http://localhost:3000
-# Backend:  http://localhost:5000
-# API Docs: http://localhost:5000/api-docs
-```
-
-### Option 2: Run Locally
-
-#### 1. Set up MySQL
-
-Create a database called `projectflow`:
-
-```sql
-CREATE DATABASE projectflow;
-```
-
-#### 2. Set up the Backend
-
-```bash
-cd server
-
-# Install dependencies
+# Install dependencies from the root directory
 npm install
 
-# Create .env file (copy from example)
-cp .env.example .env
-# Edit .env with your MySQL credentials
-
-# Start the server
+# Start the Express server
+cd server
 npm run dev
 ```
 
-The backend runs on `http://localhost:5000`.
-
-#### 3. Set up the Frontend
-
+### 3. Start the Frontend
 ```bash
+# Open a new terminal window
 cd client
 
-# Install dependencies
+# Install frontend dependencies
 npm install
 
-# Create .env file (copy from example)
-cp .env.example .env
-
-# Start the dev server
+# Start the Vite development server
 npm run dev
 ```
-
-The frontend runs on `http://localhost:5173`.
-
----
-
-##  Environment Variables
-
-### Backend (`server/.env`)
-
-```env
-NODE_ENV=development
-PORT=5000
-
-DB_HOST=localhost
-DB_PORT=3306
-DB_NAME=projectflow
-DB_USER=root
-DB_PASSWORD=your_password
-
-JWT_SECRET=your-super-secret-key-change-this
-JWT_EXPIRES_IN=7d
-
-CLIENT_URL=http://localhost:5173
-```
-
-### Frontend (`client/.env`)
-
-```env
-VITE_API_URL=http://localhost:5000/api
-```
-
----
-
-## 📡 API Endpoints
-
-| Method | Endpoint               | Description            | Auth |
-|--------|------------------------|------------------------|------|
-| POST   | `/api/auth/register`   | Register new user      | ❌   |
-| POST   | `/api/auth/login`      | Login                  | ❌   |
-| POST   | `/api/auth/logout`     | Logout                 | ✅   |
-| GET    | `/api/auth/me`         | Get current user       | ✅   |
-| GET    | `/api/projects`        | List projects          | ✅   |
-| GET    | `/api/projects/:id`    | Get single project     | ✅   |
-| POST   | `/api/projects`        | Create project         | ✅   |
-| PUT    | `/api/projects/:id`    | Update project         | ✅   |
-| DELETE | `/api/projects/:id`    | Delete project         | ✅   |
-| GET    | `/api/tasks`           | List tasks             | ✅   |
-| GET    | `/api/tasks/:id`       | Get single task        | ✅   |
-| POST   | `/api/tasks`           | Create task            | ✅   |
-| PUT    | `/api/tasks/:id`       | Update task            | ✅   |
-| DELETE | `/api/tasks/:id`       | Delete task            | ✅   |
-| GET    | `/api/dashboard/stats` | Dashboard statistics   | ✅   |
-
-**Query Parameters** for list endpoints:
-- `?page=1&limit=10` — Pagination
-- `?search=keyword` — Search by name
-- `?status=In Progress` — Filter by status
-- `?priority=High` — Filter by priority (tasks)
-- `?project_id=1` — Filter by project (tasks)
-
-📖 **Full API docs**: Visit `http://localhost:5000/api-docs` for Swagger UI.
-
----
-
-## 🗄 Database Schema
-
-```
-Users ──┐
-        ├──< Projects ──┐
-                         ├──< Tasks
-```
-
-- **User → many Projects** (cascade delete)
-- **Project → many Tasks** (cascade delete)
+Your backend will run on `http://localhost:5000` and your frontend on `http://localhost:5173`.
 
 ---
 
 ## 📝 License
 
-MIT — do whatever you want with it.
+MIT — feel free to use and modify it for your own projects!
