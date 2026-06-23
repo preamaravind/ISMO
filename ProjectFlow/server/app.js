@@ -28,12 +28,13 @@ app.get('/api', (req, res) => {
   res.json({ message: 'ProjectFlow API is running successfully!' });
 });
 
-// Temporary route to fix Neon database schema
-app.get('/api/sync', async (req, res) => {
+// Temporary route to completely reset and fix the Neon database schema
+app.get('/api/reset-db', async (req, res) => {
   try {
     const { sequelize } = require('./models');
-    await sequelize.sync({ alter: true });
-    res.json({ message: 'Database schema successfully updated and fixed!' });
+    // force: true drops all corrupted tables and recreates them perfectly instantly
+    await sequelize.sync({ force: true });
+    res.json({ message: 'Database reset successfully! You can now register and use the app normally.' });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
