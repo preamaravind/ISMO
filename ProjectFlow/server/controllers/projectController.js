@@ -112,7 +112,8 @@ const createProject = async (req, res) => {
     }
     res.status(500).json({
       success: false,
-      message: 'Failed to create project.'
+      message: 'Failed to create project: ' + (error.message || 'Unknown database error'),
+      fullError: error
     });
   }
 };
