@@ -27,6 +27,18 @@ app.use(generalLimiter);
 app.get('/api', (req, res) => {
   res.json({ message: 'ProjectFlow API is running successfully!' });
 });
+
+// Temporary route to fix Neon database schema
+app.get('/api/sync', async (req, res) => {
+  try {
+    const { sequelize } = require('./models');
+    await sequelize.sync({ alter: true });
+    res.json({ message: 'Database schema successfully updated and fixed!' });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
 app.use('/api/auth', authRoutes);
 app.use('/api/projects', projectRoutes);
 app.use('/api/tasks', taskRoutes);
